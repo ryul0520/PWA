@@ -114,13 +114,17 @@
         .text-link { color: #888; cursor: pointer; }
 
         /* 메인 & 로비 & 게임 UI */
-        #main-page { justify-content: center; align-items: center; background: #FFF; }
+        #main-page { justify-content: center; align-items: center; background: #FFF; padding-bottom: 50px; }
         .app-title { font-size: 3.5rem; font-weight: 900; color: var(--primary); line-height: 1.1; text-align: center; margin-bottom: 10px; }
         .app-desc { font-size: 1.1rem; color: #555; text-align: center; margin-bottom: 40px; }
-        .user-info-chip { background: #f1f3f5; padding: 10px 25px; border-radius: 30px; font-weight: 700; margin-bottom: 30px; display: flex; align-items: center; gap: 10px; }
-        .big-btn { background: var(--primary); color: white; padding: 20px 70px; border-radius: 50px; font-size: 1.4rem; font-weight: 800; border: none; box-shadow: 0 15px 30px rgba(74,144,226,0.3); }
-        .logout-btn { position: absolute; top: 20px; right: 20px; border: none; background: none; color: #999; font-weight: 600; }
-        .edit-profile-btn { margin-top: 10px; font-size: 0.9rem; color: #666; background: none; border: none; border-bottom: 1px solid #ccc; padding: 0 0 2px 0; cursor: pointer;}
+        .user-info-chip { background: #f1f3f5; padding: 10px 25px; border-radius: 30px; font-weight: 700; margin-bottom: 40px; display: flex; align-items: center; gap: 10px; }
+        
+        /* [수정됨] 메인 페이지 버튼 그룹 */
+        .main-btn-box { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 300px; align-items: center; }
+        .big-btn { width: 100%; background: var(--primary); color: white; padding: 20px 0; border-radius: 50px; font-size: 1.3rem; font-weight: 800; border: none; box-shadow: 0 10px 20px rgba(74,144,226,0.3); cursor: pointer; }
+        .outline-btn { width: 100%; background: white; color: var(--primary); padding: 18px 0; border-radius: 50px; font-size: 1.1rem; font-weight: 800; border: 2px solid var(--primary); cursor: pointer; }
+        
+        .logout-btn { position: absolute; top: 20px; right: 20px; border: none; background: none; color: #999; font-weight: 600; cursor: pointer; }
 
         .lobby-header, .game-header { padding: 15px 20px; background: white; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .tab-container { display: flex; padding: 10px 10px 0; gap: 5px; background: white; border-bottom: 1px solid #eee; overflow-x: auto; }
@@ -162,6 +166,12 @@
         #result-page { justify-content: center; align-items: center; text-align: center; padding: 30px; }
         .result-icon { font-size: 5rem; margin-bottom: 20px; }
         .result-title { font-size: 2rem; font-weight: 800; margin-bottom: 10px; }
+        
+        /* [수정됨] 결과 페이지 버튼 그룹 */
+        .result-btn-box { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 300px; margin-top: 30px; }
+        .result-btn-main { width: 100%; background: var(--primary); color: white; padding: 20px 0; border-radius: 16px; font-size: 1.2rem; font-weight: 800; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; }
+        .result-btn-sub { width: 100%; background: #f1f3f5; color: #555; padding: 20px 0; border-radius: 16px; font-size: 1.2rem; font-weight: 800; border: none; cursor: pointer; }
+
     </style>
 </head>
 <body>
@@ -279,7 +289,7 @@
         </div>
     </div>
 
-    <!-- 0-5. [NEW] 회원 정보 수정 -->
+    <!-- 0-5. 회원 정보 수정 -->
     <div id="edit-profile-page" class="page auth-container">
         <div class="auth-card">
             <div class="sub-title">회원 정보 수정</div>
@@ -327,13 +337,13 @@
             <span class="user-icon">👤</span><span id="current-nickname">User</span><span>님 환영합니다!</span>
         </div>
         
-        <!-- [NEW] 회원정보 수정 버튼 -->
-        <button class="edit-profile-btn" onclick="goToEditProfile()">내 정보 수정</button>
-        <div style="margin-bottom: 25px;"></div>
-
-        <button class="big-btn" onclick="goToLobby()">학습 시작</button>
-        <div style="margin-top: 30px;">
-            <span class="text-link" style="color:#ff5252; font-size:0.9rem;" onclick="askDeleteAccount()">회원 탈퇴</span>
+        <!-- [수정됨] 메인 페이지 버튼 레이아웃 -->
+        <div class="main-btn-box">
+            <button class="big-btn" onclick="goToLobby()">학습 시작</button>
+            <button class="outline-btn" onclick="goToEditProfile()">내 정보 수정</button>
+            <div style="margin-top: 10px;">
+                <span class="text-link" style="color:#ff5252; font-size:0.9rem;" onclick="askDeleteAccount()">회원 탈퇴</span>
+            </div>
         </div>
     </div>
 
@@ -385,9 +395,11 @@
         <div class="result-icon">🎉</div>
         <div class="result-title">Stage Clear!</div>
         <div style="margin-bottom:20px;">완벽하게 암기하셨습니다.</div>
-        <div class="btn-group">
-            <button class="modal-btn-confirm" onclick="goToLobby()">로비로 이동</button>
-            <button class="modal-btn-cancel" onclick="restartCurrentStage(true)">다시 하기</button>
+        
+        <!-- [수정됨] 결과 페이지 버튼 레이아웃: 세로 배치, 큰 버튼 -->
+        <div class="result-btn-box">
+            <button class="result-btn-main" onclick="goToLobby()">로비로 이동</button>
+            <button class="result-btn-sub" onclick="restartCurrentStage(true)">다시 하기</button>
         </div>
     </div>
 
@@ -5093,13 +5105,13 @@
             ]
             }
         };
-let currentUser = null;
+
+        let currentUser = null;
         let userProgress = { math: [], chem: [], phys: [], csat: [], starredWords: [], history: {}, nickname: "" };
         let currentSubject='math', activeQueue=[], currentCardData=null, currentStageNum=0, isFavoritesMode=false, stageTotalCount=0;
         let isSigningUp = false;
 
         // UI Refs
-        // [NEW] pages 배열에 edit-profile-page 추가
         const pages = ['login-page','signup-page','forgot-pw-page','verify-wait-page','edit-profile-page','main-page','lobby-page','game-page','result-page'];
         const loadingScreen = document.getElementById('loading-screen');
         const modal = document.getElementById('custom-modal'), modalMsg = document.getElementById('modal-msg');
@@ -5110,7 +5122,6 @@ let currentUser = null;
             signN: document.getElementById('signup-nick'), signE: document.getElementById('signup-email'),
             signP: document.getElementById('signup-pw'), signPC: document.getElementById('signup-pw-confirm'),
             resetE: document.getElementById('reset-email'),
-            // [NEW] 수정용 Input들
             editE: document.getElementById('edit-email'),
             editN: document.getElementById('edit-nick'),
             editCurP: document.getElementById('edit-current-pw'),
@@ -5128,17 +5139,15 @@ let currentUser = null;
 
         window.onload = function() {
             auth.onAuthStateChanged((user) => {
-                if(isSigningUp) return; // 회원가입 중일 땐 리다이렉트 방지
+                if(isSigningUp) return; 
 
                 if (user) {
                     currentUser = user;
                     if (!user.emailVerified) {
-                        // 인증 안됨 -> 대기 화면으로
                         loadingScreen.style.opacity = '0';
                         setTimeout(()=> loadingScreen.style.display='none', 500);
                         showPage('verify-wait-page');
                     } else {
-                        // 인증 됨 -> 메인으로
                         loadProgress(user.uid); 
                     }
                 } else {
@@ -5199,7 +5208,6 @@ let currentUser = null;
                         cred.user.updateProfile({ displayName: nick });
                         cred.user.sendEmailVerification().then(() => {
                             isSigningUp = false;
-                            // 가입 성공 -> 로그인 상태임 -> onAuthStateChanged가 verify-wait-page를 보여줌
                             currentUser = cred.user;
                             showPage('verify-wait-page'); 
                         });
@@ -5235,18 +5243,16 @@ let currentUser = null;
         function goToMain() { showPage('main-page'); }
         function goToLobby() { renderLobby(); showPage('lobby-page'); }
 
-        // [NEW] 정보 수정 페이지 이동 함수
         function goToEditProfile() {
             if(!currentUser) return;
             inputs.editE.value = currentUser.email;
             inputs.editN.value = userProgress.nickname || currentUser.displayName || "";
-            inputs.editCurP.value = ""; // 보안상 초기화
+            inputs.editCurP.value = "";
             inputs.editNewP.value = "";
             inputs.editNewPC.value = "";
             showPage('edit-profile-page');
         }
 
-        // [NEW] 정보 저장 로직 (비밀번호 재확인 포함)
         function saveProfileChanges() {
             const newNick = inputs.editN.value.trim();
             const curPw = inputs.editCurP.value;
@@ -5256,29 +5262,24 @@ let currentUser = null;
             if(!curPw) return showModal("본인 확인을 위해 현재 비밀번호를 입력해주세요.");
             if(!newNick) return showModal("닉네임을 입력해주세요.");
             
-            // 새 비밀번호 유효성 검사
             if(newPw && newPw.length < 6) return showModal("새 비밀번호는 6자리 이상이어야 합니다.");
             if(newPw && newPw !== newPwC) return showModal("새 비밀번호가 일치하지 않습니다.");
 
-            // 1. 재인증 (Credential 생성)
             const credential = firebase.auth.EmailAuthProvider.credential(currentUser.email, curPw);
             
             loadingScreen.style.display = 'flex';
             loadingScreen.style.opacity = '1';
 
             currentUser.reauthenticateWithCredential(credential).then(() => {
-                // 재인증 성공
                 const promises = [];
 
-                // 2. 닉네임 변경 (Firestore + Auth Profile)
                 if(newNick !== userProgress.nickname) {
                     promises.push(db.collection('users').doc(currentUser.uid).update({ nickname: newNick }));
                     promises.push(currentUser.updateProfile({ displayName: newNick }));
-                    userProgress.nickname = newNick; // 로컬 변수 업데이트
-                    currentNicknameTxt.innerText = newNick; // UI 업데이트
+                    userProgress.nickname = newNick;
+                    currentNicknameTxt.innerText = newNick;
                 }
 
-                // 3. 비밀번호 변경 (입력된 경우만)
                 if(newPw) {
                     promises.push(currentUser.updatePassword(newPw));
                 }
